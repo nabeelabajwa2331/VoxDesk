@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoxDesk AI · Reception overview (design reference)</title>
+<link rel="icon" type="image/svg+xml" href="assets/logos/voxdesk-favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/voxdesk.css">
+</head>
+<body>
+<div class="app">
+
+<aside class="side" aria-label="Sidebar">
+<div class="wordmark">
+<img class="only-light" src="assets/logos/voxdesk-mark.svg" alt="">
+<img class="only-dark" src="assets/logos/voxdesk-mark-dark.svg" alt="">
+<span class="name">VoxDesk</span><span class="ai-pill">AI</span>
+</div>
+
+<div class="biz">
+<span>Maison Studio<small>Reception</small></span>
+</div>
+
+<nav class="nav" aria-label="Reception navigation">
+<a href="#" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>Overview</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg>Appointments</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M12 14v4M10 16h4"/></svg>Booking management</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M10 14l4 4M14 14l-4 4"/></svg><span class="grow">Cancellation requests</span><span class="nav-count" aria-label="2 open">2</span></a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg>Appointment history</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>Customers</a>
+</nav>
+
+<div class="ai-panel">
+<div class="row1"><b>AI receptionist</b><span class="live"><i></i>Live</span></div>
+<span class="body-sm">Passes calls to you when a customer asks for a person</span>
+</div>
+</aside>
+
+<div class="main">
+<div class="mobilebar">
+<div class="wordmark">
+<img class="only-light" src="assets/logos/voxdesk-mark.svg" alt="">
+<img class="only-dark" src="assets/logos/voxdesk-mark-dark.svg" alt="">
+<span class="name">VoxDesk</span><span class="ai-pill">AI</span>
+</div>
+<button type="button" class="icon-btn theme-toggle" aria-label="Switch to dark theme">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+</button>
+<button type="button" class="icon-btn" aria-label="Notifications, 4 unread">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+<span class="count" aria-hidden="true">4</span>
+</button>
+</div>
+
+<header class="topbar">
+<div class="crumbs"><span>Maison Studio</span><span aria-hidden="true">/</span><span class="here">Overview</span><span class="chip">Sample data</span></div>
+<label class="search">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+<input type="search" placeholder="Search by name or phone" aria-label="Search customers and bookings">
+</label>
+<button type="button" class="icon-btn theme-toggle" aria-label="Switch to dark theme">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+</button>
+<button type="button" class="icon-btn" aria-label="Notifications, 4 unread">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+<span class="count" aria-hidden="true">4</span>
+</button>
+<button type="button" class="me" aria-label="Account menu">
+<span class="avatar">NH</span>
+<span class="who">Nida Hassan<small>Receptionist</small></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+</button>
+</header>
+
+<main class="content">
+<div class="page-head">
+<div>
+<h1 class="heading-lg">Overview</h1>
+<p>Tue, 17 Nov 2026 · Open 10:00 AM to 8:00 PM</p>
+</div>
+<div class="actions">
+<button type="button" class="btn btn-primary">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg>
+New booking</button>
+</div>
+</div>
+
+<section class="kpis" aria-label="Today in numbers">
+<div class="card kpi"><span class="label">Today’s appointments</span><span class="heading-lg">10</span><span class="body-sm muted">2 done, 8 still to come</span></div>
+<div class="card kpi"><span class="label">Confirmed bookings</span><span class="heading-lg">7</span><span class="body-sm muted">Including 2 completed</span></div>
+<div class="card kpi"><span class="label">Pending requests</span><span class="heading-lg">3</span><span class="body-sm muted">Waiting for confirmation</span></div>
+<div class="card kpi"><span class="label">Cancellation requests</span><span class="heading-lg">2</span><span class="body-sm muted">Oldest from 38 min ago</span></div>
+</section>
+
+<div class="row">
+<section class="card panel wide">
+<div class="panel-head">
+<div><h2 class="heading-sm">Today’s schedule</h2><p class="body-sm">All staff, in time order</p></div>
+<a href="#">Open calendar</a>
+</div>
+<ul class="list">
+<li class="done"><span class="time">10:00 AM</span><span class="body"><b>Mahnoor Ali</b><span>Haircut and blow-dry with Ayesha · 0300 482 1190</span></span><span class="end"><span class="badge b-neutral">Completed</span></span></li>
+<li class="done"><span class="time">11:30 AM</span><span class="body"><b>Zainab Qureshi</b><span>Balayage with Hira · 0321 774 0563</span></span><span class="end"><span class="badge b-neutral">Completed</span></span></li>
+<li><span class="time">12:00 PM</span><span class="body"><b>Rabia Anwar</b><span>Eyebrow threading with Sana · 0333 619 2207</span></span><span class="end"><span class="badge b-success">Confirmed</span></span></li>
+<li><span class="time">1:00 PM</span><span class="body"><b>Hamza Sheikh</b><span>Beard and fade with Bilal · 0345 201 7734</span></span><span class="end"><span class="badge b-success">Confirmed</span></span></li>
+<li class="now" aria-label="Current time 1:40 PM"><span>1:40 PM</span></li>
+<li><span class="time">2:00 PM</span><span class="body"><b>Kiran Aslam</b><span>Haircut with Ayesha · 0312 550 9081</span></span><span class="end"><span class="badge b-success">Confirmed</span></span></li>
+<li><span class="time">2:30 PM</span><span class="body"><b>Fatima Khan</b><span>Gel manicure with Sana · 0301 338 4412</span></span><span class="end"><span class="badge b-success">Confirmed</span></span></li>
+<li><span class="time">3:30 PM</span><span class="body"><b>Areeba Shah</b><span>Haircut and blow-dry with Ayesha · 0322 906 1175</span></span><span class="end"><span class="badge b-warning">Pending</span><button type="button" class="btn btn-outline btn-sm">Confirm</button></span></li>
+<li><span class="time">4:00 PM</span><span class="body"><b>Danish Malik</b><span>Haircut with Bilal · 0334 127 6650</span></span><span class="end"><span class="badge b-warning">Pending</span><button type="button" class="btn btn-outline btn-sm">Confirm</button></span></li>
+<li><span class="time">5:00 PM</span><span class="body"><b>Iqra Javed</b><span>Keratin treatment with Hira · 0300 915 3328</span></span><span class="end"><span class="badge b-success">Confirmed</span></span></li>
+<li><span class="time">6:00 PM</span><span class="body"><b>Saba Hussain</b><span>Hydrating facial with Sana · 0313 482 7709</span></span><span class="end"><span class="badge b-warning">Pending</span><button type="button" class="btn btn-outline btn-sm">Confirm</button></span></li>
+</ul>
+</section>
+
+<section class="card panel narrow">
+<div class="panel-head">
+<div><h2 class="heading-sm">Needs your attention</h2><p class="body-sm">4 open tasks</p></div>
+</div>
+<ul class="list tasks">
+<li><span class="body"><span class="kind"><span class="badge b-danger">Cancellation request</span></span><b>Usman Tariq: haircut with Bilal, Wed 18 Nov, 3:30 PM</b><span>“Something came up at work.” Asked by phone · 38 min ago</span></span><span class="end"><a href="#" class="btn btn-outline btn-sm">Review</a></span></li>
+<li><span class="body"><span class="kind"><span class="badge b-danger">Cancellation request</span></span><b>Sadia Noor: keratin treatment with Hira, Sat 21 Nov, 1:00 PM</b><span>No reason given. Asked by phone · 2 h ago</span></span><span class="end"><a href="#" class="btn btn-outline btn-sm">Review</a></span></li>
+<li><span class="body"><span class="kind"><span class="badge b-warning">Callback</span></span><b>Noor Fatima wants to discuss bridal packages</b><span><span class="ai-pill">AI</span>Passed on by AI receptionist · 2 h ago</span></span><span class="end"><a href="tel:+923001234567" class="btn btn-outline btn-sm">Call</a></span></li>
+<li><span class="body"><span class="kind"><span class="badge b-warning">Pending</span></span><b>3 bookings today still need confirming</b><span>Areeba Shah, Danish Malik, Saba Hussain</span></span></li>
+</ul>
+</section>
+</div>
+
+<div class="row">
+<section class="card panel wide">
+<div class="panel-head">
+<div><h2 class="heading-sm">Upcoming appointments</h2><p class="body-sm">Next 3 days</p></div>
+<a href="#">All appointments</a>
+</div>
+<div class="table-wrap">
+<table class="stack-table">
+<thead><tr><th scope="col">Customer</th><th scope="col">Date and time</th><th scope="col">Service</th><th scope="col">Staff</th><th scope="col">Status</th><th scope="col"><span class="sub" style="display:inline">Actions</span></th></tr></thead>
+<tbody>
+<tr><td class="lead"><b>Noor Fatima</b><span class="sub">0300 123 4567</span></td><td data-label="Date and time">Wed 18 Nov, 11:00 AM</td><td data-label="Service">Bridal trial</td><td data-label="Staff">Ayesha Rahman</td><td data-label="Status"><span class="badge b-success">Confirmed</span></td><td data-label="Actions"><a href="#">Reschedule</a></td></tr>
+<tr><td class="lead"><b>Usman Tariq</b><span class="sub">0321 555 0192</span></td><td data-label="Date and time">Wed 18 Nov, 3:30 PM</td><td data-label="Service">Haircut</td><td data-label="Staff">Bilal Ahmed</td><td data-label="Status"><span class="badge b-danger">Cancel requested</span></td><td data-label="Actions"><a href="#">Review</a></td></tr>
+<tr><td class="lead"><b>Maryam Siddiqui</b><span class="sub">0333 210 8841</span></td><td data-label="Date and time">Thu 19 Nov, 12:00 PM</td><td data-label="Service">Hydrating facial</td><td data-label="Staff">Sana Iqbal</td><td data-label="Status"><span class="badge b-success">Confirmed</span></td><td data-label="Actions"><a href="#">Reschedule</a></td></tr>
+<tr><td class="lead"><b>Ali Raza</b><span class="sub">0345 760 3318</span></td><td data-label="Date and time">Thu 19 Nov, 4:00 PM</td><td data-label="Service">Beard and fade</td><td data-label="Staff">Bilal Ahmed</td><td data-label="Status"><span class="badge b-success">Confirmed</span></td><td data-label="Actions"><a href="#">Reschedule</a></td></tr>
+<tr><td class="lead"><b>Hania Butt</b><span class="sub">0312 908 4426</span></td><td data-label="Date and time">Fri 20 Nov, 10:30 AM</td><td data-label="Service">Balayage</td><td data-label="Staff">Hira Batool</td><td data-label="Status"><span class="badge b-warning">Pending</span></td><td data-label="Actions"><a href="#">Confirm</a></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section class="card panel narrow">
+<div class="panel-head">
+<div><h2 class="heading-sm">Recent customer requests</h2><p class="body-sm">From calls and online, newest first</p></div>
+</div>
+<ul class="list feed">
+<li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span><span class="body"><b>Booked: Balayage with Hira for Hania Butt, Fri 10:30 AM</b><span><span class="ai-pill">AI</span>Booked by AI receptionist · 12 min ago</span></span></li>
+<li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M10 14l4 4M14 14l-4 4"/></svg></span><span class="body"><b>Usman Tariq asked to cancel Wednesday’s haircut</b><span><span class="ai-pill">AI</span>Taken by AI receptionist · 38 min ago</span></span></li>
+<li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></span><span class="body"><b>Asked the price of a keratin treatment</b><span><span class="ai-pill">AI</span>Answered by AI receptionist · 1 h ago</span></span></li>
+<li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></span><span class="body"><b>Moved: Iqra Javed to 5:00 PM today</b><span>Rescheduled by you · 1 h ago</span></span></li>
+<li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span><span class="body"><b>Booked: Beard and fade with Bilal for Ali Raza, Thu 4:00 PM</b><span>Booked online · 3 h ago</span></span></li>
+</ul>
+</section>
+</div>
+</main>
+</div>
+</div>
+
+<nav class="tabbar" aria-label="Reception navigation">
+<a href="#" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>Overview</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg>Bookings</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M12 14v4M10 16h4"/></svg>Book</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M10 14l4 4M14 14l-4 4"/></svg>Requests<span class="count" aria-label="2 open">2</span></a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More</a>
+</nav>
+
+<script src="assets/theme.js"></script>
+</body>
+</html>
