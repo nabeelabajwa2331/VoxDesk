@@ -11,6 +11,7 @@ import { SelectField, Switch, TextAreaField, TextField } from '../../components/
 import { Banner } from '../../components/ui/States';
 import { useToast } from '../../components/ui/Toast';
 import { WorkingHoursEditor, validateHours } from '../staff-management/WorkingHoursEditor';
+import { BillingCard } from '../billing/BillingCard';
 
 const TIME_ZONES = ['Asia/Karachi', 'Asia/Dubai', 'Asia/Riyadh', 'Europe/London', 'America/New_York', 'UTC'];
 const CURRENCIES = ['PKR', 'AED', 'SAR', 'GBP', 'USD'];
@@ -33,6 +34,7 @@ export function SettingsPage() {
         <BusinessSection section="policy" title="Cancellation policy" />
         <BusinessSection section="notifications" title="Notifications" />
         <AccountSection />
+        <BillingCard />
       </div>
     </Page>
   );

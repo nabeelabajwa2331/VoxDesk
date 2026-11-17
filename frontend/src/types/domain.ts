@@ -261,3 +261,15 @@ export interface StaffProfile {
   services: Service[];
   notifications: NotificationPreferences;
 }
+
+export type SubscriptionStatus = 'NONE' | 'ACTIVE' | 'TRIALING' | 'PAST_DUE' | 'CANCELED' | 'INCOMPLETE';
+
+/** Billing state as the backend knows it from Stripe webhooks. The frontend never sets the plan. */
+export interface Subscription {
+  plan: Plan;
+  status: SubscriptionStatus;
+  priceLabel?: string;
+  currentPeriodEnd?: string;
+  cancelAtPeriodEnd: boolean;
+  hasBillingAccount: boolean;
+}

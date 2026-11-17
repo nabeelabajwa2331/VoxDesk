@@ -1,25 +1,45 @@
+import { lazy, type ComponentType, type ReactNode } from 'react';
 import { createBrowserRouter, Link, type RouteObject } from 'react-router';
-import type { ReactNode } from 'react';
 import type { Role } from '../types/domain';
+import { USING_MOCKS } from '../api';
 import { AppShell } from '../components/layout/AppShell';
 import { HomeRedirect, RequireAuth, RequireRole } from '../features/auth/guards';
 import { LoginPage } from '../features/auth/LoginPage';
-import { OwnerOverview } from '../features/overview/OwnerOverview';
-import { ReceptionOverview } from '../features/overview/ReceptionOverview';
-import { StaffOverview } from '../features/staff-portal/StaffOverview';
-import { AppointmentsPage } from '../features/appointments/AppointmentsPage';
-import { CalendarPage } from '../features/calendar/CalendarPage';
-import { StaffPage } from '../features/staff-management/StaffPage';
-import { AnalyticsPage } from '../features/analytics/AnalyticsPage';
-import { ServicesPage } from '../features/services/ServicesPage';
-import { CustomersPage } from '../features/customers/CustomersPage';
-import { ReceptionistPage } from '../features/receptionist/ReceptionistPage';
-import { IntegrationsPage } from '../features/integrations/IntegrationsPage';
-import { SettingsPage } from '../features/settings/SettingsPage';
-import { BookingPage } from '../features/booking/BookingPage';
-import { CancellationRequestsPage } from '../features/cancellations/CancellationRequestsPage';
-import { MySchedulePage } from '../features/staff-portal/MySchedulePage';
-import { MyProfilePage } from '../features/staff-portal/MyProfilePage';
+
+function page<M extends Record<string, unknown>>(load: () => Promise<M>, name: keyof M) {
+  return lazy(async () => ({ default: (await load())[name] as ComponentType }));
+}
+
+const OwnerOverview = page(() => import('../features/overview/OwnerOverview'), 'OwnerOverview');
+const ReceptionOverview = page(() => import('../features/overview/ReceptionOverview'), 'ReceptionOverview');
+const StaffOverview = page(() => import('../features/staff-portal/StaffOverview'), 'StaffOverview');
+const CalendarPage = page(() => import('../features/calendar/CalendarPage'), 'CalendarPage');
+const StaffPage = page(() => import('../features/staff-management/StaffPage'), 'StaffPage');
+const AnalyticsPage = page(() => import('../features/analytics/AnalyticsPage'), 'AnalyticsPage');
+const ServicesPage = page(() => import('../features/services/ServicesPage'), 'ServicesPage');
+const CustomersPage = page(() => import('../features/customers/CustomersPage'), 'CustomersPage');
+const ReceptionistPage = page(() => import('../features/receptionist/ReceptionistPage'), 'ReceptionistPage');
+const IntegrationsPage = page(() => import('../features/integrations/IntegrationsPage'), 'IntegrationsPage');
+const SettingsPage = page(() => import('../features/settings/SettingsPage'), 'SettingsPage');
+const BookingPage = page(() => import('../features/booking/BookingPage'), 'BookingPage');
+const CancellationRequestsPage = page(() => import('../features/cancellations/CancellationRequestsPage'), 'CancellationRequestsPage');
+const MySchedulePage = page(() => import('../features/staff-portal/MySchedulePage'), 'MySchedulePage');
+const MyProfilePage = page(() => import('../features/staff-portal/MyProfilePage'), 'MyProfilePage');
+const DemoStripePage = page(() => import('../features/billing/DemoStripePage'), 'DemoStripePage');
+
+const AppointmentsModule = () => import('../features/appointments/AppointmentsPage');
+const ManageAppointments = lazy(async () => {
+  const { AppointmentsPage } = await AppointmentsModule();
+  return { default: () => <AppointmentsPage mode="manage" /> };
+});
+const AppointmentHistory = lazy(async () => {
+  const { AppointmentsPage } = await AppointmentsModule();
+  return { default: () => <AppointmentsPage mode="history" /> };
+});
+const MyAppointments = lazy(async () => {
+  const { AppointmentsPage } = await AppointmentsModule();
+  return { default: () => <AppointmentsPage mode="mine" /> };
+});
 
 function NotFound() {
   return (
@@ -38,6 +58,7 @@ function roleSection(path: string, role: Role, children: RouteObject[]): RouteOb
 
 export const router = createBrowserRouter([
   { path: '/login', element: <LoginPage /> },
+  ...(USING_MOCKS ? [{ path: '/demo-stripe', element: <DemoStripePage /> }] : []),
   {
     element: (
       <RequireAuth>
@@ -48,7 +69,7 @@ export const router = createBrowserRouter([
       { index: true, element: <HomeRedirect /> },
       roleSection('owner', 'OWNER', [
         { index: true, element: <OwnerOverview /> },
-        { path: 'appointments', element: <AppointmentsPage mode="manage" /> },
+        { path: 'appointments', element: <ManageAppointments /> },
         { path: 'calendar', element: <CalendarPage /> },
         { path: 'staff', element: <StaffPage /> },
         { path: 'analytics', element: <AnalyticsPage /> },
@@ -60,15 +81,15 @@ export const router = createBrowserRouter([
       ]),
       roleSection('reception', 'RECEPTIONIST', [
         { index: true, element: <ReceptionOverview /> },
-        { path: 'appointments', element: <AppointmentsPage mode="manage" /> },
+        { path: 'appointments', element: <ManageAppointments /> },
         { path: 'book', element: <BookingPage /> },
         { path: 'cancellations', element: <CancellationRequestsPage /> },
-        { path: 'history', element: <AppointmentsPage mode="history" /> },
+        { path: 'history', element: <AppointmentHistory /> },
         { path: 'customers', element: <CustomersPage /> },
       ]),
       roleSection('staff', 'STAFF', [
         { index: true, element: <StaffOverview /> },
-        { path: 'appointments', element: <AppointmentsPage mode="mine" /> },
+        { path: 'appointments', element: <MyAppointments /> },
         { path: 'schedule', element: <MySchedulePage /> },
         { path: 'customers', element: <CustomersPage /> },
         { path: 'profile', element: <MyProfilePage /> },

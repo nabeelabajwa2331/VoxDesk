@@ -9,6 +9,7 @@ import type {
   Role,
   Slot,
   StaffMember,
+  Subscription,
   User,
 } from '../types/domain';
 import {
@@ -37,6 +38,19 @@ const idempotency = new Map<string, string>();
 let counter = 1000;
 const staffPrefs = new Map<string, Business['notifications']>();
 const passwords = new Map<string, string>();
+const subscriptions = new Map<string, Subscription>();
+const checkoutSessions = new Map<string, { businessId: string; paid: boolean }>();
+
+function subscriptionFor(business: Business): Subscription {
+  let s = subscriptions.get(business.id);
+  if (!s) {
+    s = business.plan === 'PRO'
+      ? { plan: 'PRO', status: 'ACTIVE', currentPeriodEnd: new Date(Date.now() + 12 * 86_400_000).toISOString(), cancelAtPeriodEnd: false, hasBillingAccount: true }
+      : { plan: 'FREE', status: 'NONE', cancelAtPeriodEnd: false, hasBillingAccount: false };
+    subscriptions.set(business.id, s);
+  }
+  return s;
+}
 
 function data(): Db {
   db ??= createSeed();
@@ -752,6 +766,27 @@ export const mockApi: VoxDeskApi = {
     },
   },
 
+  billing: {
+    async subscription() {
+      const { business } = ctx('OWNER');
+      return delay(subscriptionFor(business));
+    },
+    async createCheckout(input) {
+      const { business } = ctx('OWNER');
+      if (subscriptionFor(business).plan === 'PRO') fail(409, 'CONFLICT', 'You are already on the Pro plan.');
+      const id = nextId('cs_demo');
+      checkoutSessions.set(id, { businessId: business.id, paid: false });
+      const q = new URLSearchParams({ mode: 'checkout', session: id, return: input.returnPath });
+      return delay({ url: `/demo-stripe?${q}` }, 500);
+    },
+    async createPortal(returnPath) {
+      const { business } = ctx('OWNER');
+      if (!subscriptionFor(business).hasBillingAccount) fail(409, 'CONFLICT', 'There is no billing account yet. Upgrade first.');
+      const q = new URLSearchParams({ mode: 'portal', return: returnPath });
+      return delay({ url: `/demo-stripe?${q}` }, 400);
+    },
+  },
+
   me: {
     async schedule(from, to) {
       const { user, business } = ctx('STAFF');
@@ -805,5 +840,35 @@ export const mockApi: VoxDeskApi = {
         notifications: staffPrefs.get(user.id) ?? business.notifications,
       });
     },
+  },
+};
+
+/**
+ * Stand-ins for what Stripe and the backend webhook do in production. Only the
+ * demo checkout page calls these; the real app never changes the plan itself.
+ */
+export const demoStripe = {
+  async pay(sessionId: string) {
+    const { business } = ctx('OWNER');
+    const session = checkoutSessions.get(sessionId);
+    if (!session || session.businessId !== business.id) fail(404, 'NOT_FOUND', 'Checkout session not found.');
+    session.paid = true;
+    setTimeout(() => {
+      subscriptions.set(business.id, {
+        plan: 'PRO',
+        status: 'ACTIVE',
+        currentPeriodEnd: new Date(Date.now() + 30 * 86_400_000).toISOString(),
+        cancelAtPeriodEnd: false,
+        hasBillingAccount: true,
+      });
+      business.plan = 'PRO';
+    }, 2500);
+    return delay(undefined, 800);
+  },
+  async setCancelAtPeriodEnd(cancel: boolean) {
+    const { business } = ctx('OWNER');
+    const s = subscriptionFor(business);
+    subscriptions.set(business.id, { ...s, cancelAtPeriodEnd: cancel });
+    return delay(undefined, 500);
   },
 };

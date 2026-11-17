@@ -18,6 +18,7 @@ import type {
   StaffMember,
   StaffProfile,
   StaffSchedule,
+  Subscription,
 } from '../types/domain';
 
 export interface AppointmentQuery {
@@ -137,6 +138,13 @@ export interface VoxDeskApi {
     list(): Promise<Integration[]>;
     connect(id: string): Promise<Integration>;
     disconnect(id: string): Promise<Integration>;
+  };
+  billing: {
+    subscription(): Promise<Subscription>;
+    /** Creates a Stripe Checkout Session on the backend and returns its hosted URL. */
+    createCheckout(input: { plan: 'PRO'; returnPath: string }): Promise<{ url: string }>;
+    /** Creates a Stripe Customer Portal session for changing card, invoices or cancelling. */
+    createPortal(returnPath: string): Promise<{ url: string }>;
   };
   me: {
     schedule(from: string, to: string): Promise<StaffSchedule>;

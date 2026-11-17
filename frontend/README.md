@@ -76,6 +76,13 @@ The session is a cookie (`credentials: 'include'`). No call sends a business id:
 | `GET /notifications`, `POST /notifications/read-all` | all | per user |
 | `GET /receptionist`, `PUT /receptionist`, `POST /receptionist/test` | owner | |
 | `GET /integrations`, `POST /integrations/{id}/connect`, `.../disconnect` | owner | |
+| `GET /billing/subscription` | owner | plan and Stripe subscription status |
+| `POST /billing/checkout-session` | owner | `{ plan, return_path }` returns `{ url }` of a Stripe Checkout Session |
+| `POST /billing/portal-session` | owner | `{ return_path }` returns `{ url }` of a Stripe Customer Portal session |
 | `GET /me/schedule`, `GET /me/profile`, `PATCH /me/profile` | staff | `from`, `to` for schedule |
+
+### Payments (Stripe)
+
+The browser never handles card data and never decides the plan. The backend creates Checkout and Portal sessions with its Stripe secret key and returns their URLs; the frontend only redirects. Build the Checkout `success_url` as `{return_path}?billing=success&session_id={CHECKOUT_SESSION_ID}` and `cancel_url` as `{return_path}?billing=cancelled`. Change the business plan only in the Stripe webhook handler (`checkout.session.completed`, `customer.subscription.updated` and `.deleted`, `invoice.payment_failed`). On return the Settings page polls `GET /billing/subscription` until the webhook has landed. In demo mode `/demo-stripe` stands in for Stripe and is clearly marked.
 
 Request and response shapes are the TypeScript types in `src/types/domain.ts` and `src/api/contract.ts`. The HTTP client sends camelCase bodies and snake_case query parameters; align this with the FastAPI models before integration.

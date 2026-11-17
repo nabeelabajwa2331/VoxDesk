@@ -13,6 +13,7 @@ import { Checkbox, Switch, TextAreaField, TextField } from '../../components/ui/
 import { Banner, EmptyState, QueryView } from '../../components/ui/States';
 import { useToast } from '../../components/ui/Toast';
 import { Lock, Pencil, Plus, Tag } from '../../components/icons';
+import { useBillingRedirect } from '../billing/useBilling';
 
 export function ServicesPage() {
   const { business } = useSession();
@@ -176,7 +177,7 @@ const PREVIEW = [
 ];
 
 function ServicesLocked() {
-  const [open, setOpen] = useState(false);
+  const billing = useBillingRedirect();
   return (
     <Page>
       <PageHeader title="Services & pricing" description="Set up your menu of services, prices and who does what." />
@@ -192,10 +193,11 @@ function ServicesLocked() {
               Add each service with its duration and price, choose which staff offer it, and hide services you are not taking bookings for. The AI receptionist then quotes your real prices on calls.
             </p>
           </div>
-          <Button variant="primary" className="self-start" onClick={() => setOpen(true)}>
+          {billing.error !== undefined && <Banner tone="danger">{errorMessage(billing.error)}</Banner>}
+          <Button variant="primary" className="self-start" loading={billing.pending === 'checkout'} onClick={() => billing.startCheckout('/owner/settings')}>
             Upgrade to Pro
           </Button>
-          <p className="type-body-sm text-ink-muted">Everything else in your dashboard keeps working on the Free plan.</p>
+          <p className="type-body-sm text-ink-muted">You pay on Stripe’s secure page. Everything else in your dashboard keeps working on the Free plan.</p>
         </div>
         <div className="border-t border-line bg-surface p-6" aria-label="Preview of the Pro feature">
           <p className="mb-3 type-label text-ink-muted">Preview</p>
@@ -210,21 +212,6 @@ function ServicesLocked() {
           </div>
         </div>
       </Card>
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        title="Upgrade to Pro"
-        footer={
-          <Button variant="primary" onClick={() => setOpen(false)}>
-            Got it
-          </Button>
-        }
-      >
-        <div className="flex flex-col gap-3">
-          <p>Online payment is not set up yet, so no payment is taken here and your plan stays on Free.</p>
-          <p className="text-ink-muted">Contact the VoxDesk team to move your account to Pro.</p>
-        </div>
-      </Dialog>
     </Page>
   );
 }

@@ -133,6 +133,11 @@ export const httpApi: VoxDeskApi = {
     connect: (id) => post(`/integrations/${id}/connect`),
     disconnect: (id) => post(`/integrations/${id}/disconnect`),
   },
+  billing: {
+    subscription: () => get('/billing/subscription'),
+    createCheckout: (input) => post('/billing/checkout-session', { plan: input.plan, return_path: input.returnPath }),
+    createPortal: (returnPath) => post('/billing/portal-session', { return_path: returnPath }),
+  },
   me: {
     schedule: (from, to) => get('/me/schedule', { from, to }),
     profile: () => get('/me/profile'),

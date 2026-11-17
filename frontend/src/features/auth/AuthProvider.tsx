@@ -11,6 +11,7 @@ interface AuthContextValue {
   login: (email: string, password: string) => Promise<Session>;
   logout: () => Promise<void>;
   retry: () => void;
+  refresh: () => Promise<void>;
   updateBusiness: (business: Business) => void;
 }
 
@@ -54,13 +55,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setAttempt((a) => a + 1);
   }, []);
 
+  const refresh = useCallback(async () => {
+    const s = await api.auth.getSession();
+    setSession(s);
+    setStatus(s ? 'authenticated' : 'anonymous');
+  }, []);
+
   const updateBusiness = useCallback((business: Business) => {
     setSession((s) => (s ? { ...s, business } : s));
   }, []);
 
   const value = useMemo(
-    () => ({ status, session, login, logout, retry, updateBusiness }),
-    [status, session, login, logout, retry, updateBusiness],
+    () => ({ status, session, login, logout, retry, refresh, updateBusiness }),
+    [status, session, login, logout, retry, refresh, updateBusiness],
   );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
