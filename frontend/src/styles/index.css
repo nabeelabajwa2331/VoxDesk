@@ -1,0 +1,179 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+:root,
+[data-theme='light'] {
+  --brand-magenta: #c2185b;
+  --brand-magenta-strong: #9c1249;
+  --on-brand: #ffffff;
+  --accent-marigold: #ffb300;
+  --ink-on-accent: #24123a;
+  --secondary-peacock: #00897b;
+  --brand-plum: #24123a;
+  --on-plum: #ffffff;
+  --ink: #24123a;
+  --ink-muted: #5a4a6b;
+  --surface: #f3f0eb;
+  --surface-raised: #ffffff;
+  --border: #f1dcc8;
+  --border-strong: #8c7a9e;
+  --focus-ring: #9c1249;
+  --success-bg: #dcfce7;
+  --success-fg: #166534;
+  --warning-bg: #fff1cc;
+  --warning-fg: #8a5a00;
+  --danger-bg: #fde2e2;
+  --danger-fg: #b42318;
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --brand-magenta: #ff5c9a;
+  --brand-magenta-strong: #ff8ab5;
+  --on-brand: #24123a;
+  --accent-marigold: #ffb300;
+  --ink-on-accent: #24123a;
+  --secondary-peacock: #2bbfae;
+  --brand-plum: #4a3566;
+  --on-plum: #f5eef8;
+  --ink: #f5eef8;
+  --ink-muted: #c4b5d4;
+  --surface: #1a0f2b;
+  --surface-raised: #24163a;
+  --border: #3a2a52;
+  --border-strong: #8e7ba6;
+  --focus-ring: #ff8ab5;
+  --success-bg: #123b26;
+  --success-fg: #86efac;
+  --warning-bg: #3d2e05;
+  --warning-fg: #ffd166;
+  --danger-bg: #3f1515;
+  --danger-fg: #fca5a5;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-brand: var(--brand-magenta);
+  --color-brand-strong: var(--brand-magenta-strong);
+  --color-on-brand: var(--on-brand);
+  --color-marigold: var(--accent-marigold);
+  --color-on-accent: var(--ink-on-accent);
+  --color-peacock: var(--secondary-peacock);
+  --color-plum: var(--brand-plum);
+  --color-on-plum: var(--on-plum);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-surface: var(--surface);
+  --color-raised: var(--surface-raised);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-focus: var(--focus-ring);
+  --color-success-bg: var(--success-bg);
+  --color-success-fg: var(--success-fg);
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-fg: var(--warning-fg);
+  --color-danger-bg: var(--danger-bg);
+  --color-danger-fg: var(--danger-fg);
+
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-urdu: 'Noto Nastaliq Urdu', 'Noto Naskh Arabic', serif;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+}
+
+@utility type-display-xl {
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 44px;
+  font-weight: 700;
+}
+@utility type-heading-lg {
+  font-family: var(--font-display);
+  font-size: 32px;
+  line-height: 38px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+@utility type-heading-md {
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 600;
+}
+@utility type-heading-sm {
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+}
+@utility type-body-lg {
+  font-size: 16px;
+  line-height: 24px;
+}
+@utility type-body {
+  font-size: 15px;
+  line-height: 22px;
+}
+@utility type-body-sm {
+  font-size: 13px;
+  line-height: 18px;
+}
+@utility type-label {
+  font-size: 13px;
+  line-height: 16px;
+  font-weight: 600;
+}
+@utility type-caption {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+@layer base {
+  html {
+    background: var(--surface);
+  }
+  body {
+    margin: 0;
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 22px;
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+  button,
+  [role='button'] {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+  ::placeholder {
+    color: var(--ink-muted);
+    opacity: 1;
+  }
+  dialog {
+    color: inherit;
+  }
+  dialog::backdrop {
+    background: rgb(26 15 43 / 0.5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
