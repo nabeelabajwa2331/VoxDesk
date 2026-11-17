@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoxDesk AI · Owner overview (design reference)</title>
+<link rel="icon" type="image/svg+xml" href="assets/logos/voxdesk-favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme=light]{
+--brand-magenta:#C2185B;--brand-magenta-strong:#9C1249;--on-brand:#FFFFFF;
+--accent-marigold:#FFB300;--ink-on-accent:#24123A;
+--secondary-peacock:#00897B;--brand-plum:#24123A;
+--ink:#24123A;--ink-muted:#5A4A6B;
+--surface:#FFF7EE;--surface-raised:#FFFFFF;
+--border:#F1DCC8;--border-strong:#8C7A9E;--focus-ring:#9C1249;
+--success-bg:#DCFCE7;--success-fg:#166534;
+--warning-bg:#FFF1CC;--warning-fg:#8A5A00;
+--danger-bg:#FDE2E2;--danger-fg:#B42318;
+--on-plum:#FFFFFF;
+}
+[data-theme=dark]{
+--brand-magenta:#FF5C9A;--brand-magenta-strong:#FF8AB5;--on-brand:#24123A;
+--accent-marigold:#FFB300;--ink-on-accent:#24123A;
+--secondary-peacock:#2BBFAE;--brand-plum:#4A3566;
+--ink:#F5EEF8;--ink-muted:#C4B5D4;
+--surface:#1A0F2B;--surface-raised:#24163A;
+--border:#3A2A52;--border-strong:#8E7BA6;--focus-ring:#FF8AB5;
+--success-bg:#123B26;--success-fg:#86EFAC;
+--warning-bg:#3D2E05;--warning-fg:#FFD166;
+--danger-bg:#3F1515;--danger-fg:#FCA5A5;
+--on-plum:#F5EEF8;
+}
+:root{
+--font-display:"Space Grotesk",system-ui,sans-serif;
+--font-sans:Inter,system-ui,sans-serif;
+--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-6:24px;--space-8:32px;--space-10:40px;
+--radius-sm:6px;--radius-md:10px;--radius-lg:16px;--radius-pill:999px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);font:400 15px/22px var(--font-sans);font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+h1,h2,p{margin:0}
+a{color:var(--brand-magenta-strong);text-decoration:none;font-weight:600}
+a:hover{text-decoration:underline}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.only-light{display:block}.only-dark{display:none}
+[data-theme=dark] .only-light{display:none}[data-theme=dark] .only-dark{display:block}
+
+.heading-lg{font:700 32px/38px var(--font-display);letter-spacing:-.01em}
+.heading-md{font:600 24px/30px var(--font-display)}
+.heading-sm{font:600 20px/28px var(--font-display)}
+.body-sm{font-size:13px;line-height:18px}
+.label{font-size:13px;line-height:16px;font-weight:600}
+.caption{font-size:12px;line-height:16px}
+.muted{color:var(--ink-muted)}
+
+.app{display:flex;min-height:100vh}
+.side{flex:0 0 248px;display:flex;flex-direction:column;gap:var(--space-6);padding:var(--space-6) var(--space-4);background:var(--surface-raised);border-right:1px solid var(--border)}
+.wordmark{display:flex;align-items:center;gap:var(--space-2);padding:0 var(--space-2)}
+.wordmark img{width:36px;height:36px}
+.wordmark .name{font:700 20px/28px var(--font-display);color:var(--ink)}
+.ai-pill{display:inline-flex;align-items:center;padding:2px 6px;border-radius:var(--radius-sm);background:var(--accent-marigold);color:var(--ink-on-accent);font-size:12px;line-height:16px;font-weight:600}
+.biz{display:flex;align-items:center;gap:var(--space-3);width:100%;min-height:44px;padding:var(--space-2) var(--space-3);background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);text-align:left}
+.biz span{display:flex;flex-direction:column;flex:1;min-width:0;font-weight:600}
+.biz small{font-weight:400;font-size:13px;line-height:18px;color:var(--ink-muted)}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav a{display:flex;align-items:center;gap:var(--space-3);min-height:44px;padding:0 var(--space-3);border-radius:var(--radius-md);color:var(--ink-muted);font-weight:400}
+.nav a:hover{text-decoration:none;color:var(--ink);background:var(--surface)}
+.nav a[aria-current=page]{background:var(--brand-magenta);color:var(--on-brand);font-weight:600}
+.nav .grow{flex:1}
+.nav hr{border:0;height:1px;background:var(--border);margin:var(--space-2) var(--space-3)}
+.pro{font-size:12px;line-height:16px;font-weight:600;padding:2px 8px;border-radius:var(--radius-pill);border:1px solid var(--border-strong);color:var(--ink-muted)}
+.nav a[aria-current=page] .pro{border-color:currentColor;color:inherit}
+.ai-panel{margin-top:auto;display:flex;flex-direction:column;gap:var(--space-2);padding:var(--space-4);border-radius:var(--radius-lg);background:var(--brand-plum);color:var(--on-plum)}
+.ai-panel .row1{display:flex;align-items:center;justify-content:space-between;gap:var(--space-2)}
+.ai-panel b{font-weight:600}
+.ai-panel .live{display:inline-flex;align-items:center;gap:6px;font-size:13px;line-height:18px}
+.ai-panel .live i{width:8px;height:8px;border-radius:50%;background:var(--accent-marigold)}
+
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{display:flex;align-items:center;gap:var(--space-4);min-height:72px;padding:var(--space-3) var(--space-10);border-bottom:1px solid var(--border);background:var(--surface)}
+.crumbs{display:flex;align-items:center;gap:var(--space-2);flex:1;min-width:0;font-size:13px;line-height:18px;color:var(--ink-muted)}
+.crumbs .here{color:var(--ink);font-weight:600}
+.chip{font-size:12px;line-height:16px;padding:2px 8px;border-radius:var(--radius-pill);border:1px solid var(--border-strong);color:var(--ink-muted)}
+.search{display:flex;align-items:center;gap:var(--space-2);width:280px;height:44px;padding:0 var(--space-3);background:var(--surface-raised);border:1px solid var(--border-strong);border-radius:var(--radius-md);color:var(--ink-muted)}
+.search:focus-within{outline:2px solid var(--focus-ring);outline-offset:2px}
+.search input{flex:1;min-width:0;background:transparent;border:0;outline:none;color:var(--ink);font:inherit}
+.search input::placeholder{color:var(--ink-muted)}
+.icon-btn{position:relative;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:var(--surface-raised);border:1px solid var(--border-strong);border-radius:var(--radius-md);color:var(--ink)}
+.count{position:absolute;top:-6px;right:-6px;min-width:20px;height:20px;padding:0 6px;border-radius:var(--radius-pill);background:var(--accent-marigold);color:var(--ink-on-accent);font-size:12px;line-height:20px;font-weight:600;text-align:center}
+.me{display:flex;align-items:center;gap:var(--space-2);min-height:44px;padding:0 var(--space-2) 0 0;background:transparent;border:0;text-align:left}
+.me span.who{display:flex;flex-direction:column;font-weight:600;font-size:13px;line-height:18px}
+.me small{font-weight:400;color:var(--ink-muted)}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--surface);border:1px solid var(--border);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex:0 0 auto}
+
+.content{display:flex;flex-direction:column;gap:var(--space-8);width:100%;max-width:1440px;padding:var(--space-10)}
+.page-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:var(--space-4)}
+.page-head p{margin-top:var(--space-1);color:var(--ink-muted)}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3)}
+.seg{display:flex;padding:3px;background:var(--surface-raised);border:1px solid var(--border-strong);border-radius:var(--radius-md)}
+.seg button{min-height:36px;padding:0 var(--space-4);background:transparent;border:0;border-radius:7px;color:var(--ink-muted)}
+.seg button[aria-pressed=true]{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:inset 0 0 0 1px var(--border)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);min-height:44px;padding:0 var(--space-4);border-radius:var(--radius-md);font-weight:600;border:1px solid transparent}
+.btn-primary{background:var(--brand-magenta);color:var(--on-brand)}
+.btn-primary:hover{background:var(--brand-magenta-strong)}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:var(--space-6)}
+.card{background:var(--surface-raised);border:1px solid var(--border);border-radius:var(--radius-lg)}
+.kpi{display:flex;flex-direction:column;gap:var(--space-2);padding:var(--space-6)}
+.kpi .label{color:var(--ink-muted)}
+.row{display:flex;flex-wrap:wrap;gap:var(--space-6)}
+.wide{flex:2 1 560px;min-width:0}.narrow{flex:1 1 340px;min-width:0}
+.panel{display:flex;flex-direction:column}
+.panel-head{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:var(--space-3);padding:var(--space-6) var(--space-6) var(--space-4)}
+.panel-head p{margin-top:2px;color:var(--ink-muted)}
+.panel-head a{font-size:13px;line-height:18px;padding-top:6px}
+
+.legend{display:flex;gap:var(--space-4);font-size:13px;line-height:18px;color:var(--ink-muted)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:3px}
+.chart{display:flex;gap:var(--space-3);padding:0 var(--space-6) var(--space-6)}
+.y{display:flex;flex-direction:column;justify-content:space-between;height:220px;width:20px;text-align:right;color:var(--ink-muted)}
+.plot{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--space-2)}
+.bars{height:220px;display:flex;align-items:flex-end;gap:var(--space-2);border-bottom:1px solid var(--border-strong);border-top:1px dashed var(--border);background:linear-gradient(var(--border),var(--border)) 0 50%/100% 1px no-repeat}
+.bar{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;height:100%}
+.bar .c{background:var(--secondary-peacock);border-radius:4px 4px 0 0}
+.bar .b{background:var(--brand-magenta);border-radius:4px 4px 0 0}
+.bar .c + .b{border-radius:0}
+.x{display:flex;gap:var(--space-2);color:var(--ink-muted)}
+.x span{flex:1;min-width:0;text-align:center}
+.x .today{color:var(--ink);font-weight:600}
+
+.list{list-style:none;margin:0;padding:0 0 var(--space-2)}
+.list li{display:flex;align-items:center;gap:var(--space-4);padding:var(--space-3) var(--space-6);border-top:1px solid var(--border)}
+.list .time{width:72px;flex:0 0 auto;font-weight:600;font-size:13px;line-height:18px}
+.list .body{flex:1;min-width:0;display:flex;flex-direction:column}
+.list .body b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.list .body span{font-size:13px;line-height:18px;color:var(--ink-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.feed li{align-items:flex-start}
+.feed .body b{font-weight:400;white-space:normal}
+.feed .body span{white-space:normal;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.feed .ic{width:36px;height:36px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-md);background:var(--surface);border:1px solid var(--border);color:var(--ink-muted)}
+
+.badge{display:inline-flex;align-items:center;padding:2px 10px;border-radius:var(--radius-pill);font-size:12px;line-height:16px;font-weight:600;white-space:nowrap}
+.b-success{background:var(--success-bg);color:var(--success-fg)}
+.b-warning{background:var(--warning-bg);color:var(--warning-fg)}
+.b-danger{background:var(--danger-bg);color:var(--danger-fg)}
+.b-neutral{background:var(--surface);color:var(--ink-muted);box-shadow:inset 0 0 0 1px var(--border)}
+.src{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:var(--space-3);font-size:13px;line-height:16px;font-weight:600;color:var(--ink-muted);border-top:1px solid var(--border);white-space:nowrap}
+td{padding:var(--space-3);border-top:1px solid var(--border);white-space:nowrap;vertical-align:middle}
+th:first-child,td:first-child{padding-left:var(--space-6)}
+th:last-child,td:last-child{padding-right:var(--space-6)}
+.num{text-align:right}
+.sub{display:block;font-size:13px;line-height:18px;color:var(--ink-muted)}
+.person{display:flex;align-items:center;gap:var(--space-3)}
+.person b{font-weight:600}
+.meter{display:flex;align-items:center;gap:var(--space-3)}
+.meter .track{flex:1;height:8px;border-radius:var(--radius-pill);background:var(--surface);box-shadow:inset 0 0 0 1px var(--border);overflow:hidden}
+.meter .fill{display:block;height:100%;background:var(--brand-magenta);border-radius:var(--radius-pill)}
+.meter .pct{width:40px;text-align:right;font-size:13px}
+
+.tabbar{display:none}
+.mobilebar{display:none}
+
+@media (max-width:1024px){
+.side{display:none}
+.topbar{display:none}
+.mobilebar{display:flex;align-items:center;gap:var(--space-3);min-height:64px;padding:var(--space-2) var(--space-4);background:var(--surface-raised);border-bottom:1px solid var(--border)}
+.mobilebar .wordmark{flex:1;padding:0}
+.mobilebar .wordmark img{width:32px;height:32px}
+.tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--surface-raised);border-top:1px solid var(--border);padding:var(--space-1) var(--space-2) calc(var(--space-1) + env(safe-area-inset-bottom))}
+.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:56px;border-radius:var(--radius-md);color:var(--ink-muted);font-size:12px;line-height:16px;font-weight:400}
+.tabbar a:hover{text-decoration:none}
+.tabbar a[aria-current=page]{color:var(--brand-magenta-strong);font-weight:600}
+.content{padding:var(--space-6) var(--space-4) calc(var(--space-10) + 72px)}
+}
+@media (max-width:640px){
+.actions{width:100%}
+.actions .btn-primary{flex:1}
+.seg{flex:1}.seg button{flex:1}
+.stack-table thead{display:none}
+.stack-table,.stack-table tbody,.stack-table tr,.stack-table td{display:block;width:100%}
+.stack-table tr{padding:var(--space-4) var(--space-6);border-top:1px solid var(--border)}
+.stack-table td{display:flex;justify-content:space-between;align-items:center;gap:var(--space-4);padding:var(--space-1) 0 !important;border:0;white-space:normal;text-align:right}
+.stack-table td::before{content:attr(data-label);font-size:13px;line-height:16px;font-weight:600;color:var(--ink-muted);text-align:left}
+.stack-table td.lead{display:block;text-align:left;padding-bottom:var(--space-2) !important}
+.stack-table td.lead::before{content:none}
+.stack-table .meter{flex:1;max-width:200px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<aside class="side" aria-label="Sidebar">
+<div class="wordmark">
+<img class="only-light" src="assets/logos/voxdesk-mark.svg" alt="">
+<img class="only-dark" src="assets/logos/voxdesk-mark-dark.svg" alt="">
+<span class="name">VoxDesk</span><span class="ai-pill">AI</span>
+</div>
+
+<button type="button" class="biz" aria-label="Switch business: Maison Studio">
+<span>Maison Studio<small>Pro plan · Owner</small></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+</button>
+
+<nav class="nav" aria-label="Owner navigation">
+<a href="#" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>Overview</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg>Appointments</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>Calendar</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Staff management</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg>Revenue &amp; analytics</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r="1"/></svg><span class="grow">Services &amp; pricing</span><span class="pro">Pro</span></a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>Customers</a>
+<hr>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>AI receptionist</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22v-5M9 8V2M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8z"/></svg>Integrations</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/></svg>Settings</a>
+</nav>
+
+<div class="ai-panel">
+<div class="row1"><b>AI receptionist</b><span class="live"><i></i>Live</span></div>
+<span class="body-sm">Answering calls in Urdu and English</span>
+</div>
+</aside>
+
+<div class="main">
+<div class="mobilebar">
+<div class="wordmark">
+<img class="only-light" src="assets/logos/voxdesk-mark.svg" alt="">
+<img class="only-dark" src="assets/logos/voxdesk-mark-dark.svg" alt="">
+<span class="name">VoxDesk</span><span class="ai-pill">AI</span>
+</div>
+<button type="button" class="icon-btn theme-toggle" aria-label="Switch to dark theme">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+</button>
+<button type="button" class="icon-btn" aria-label="Notifications, 3 unread">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+<span class="count" aria-hidden="true">3</span>
+</button>
+</div>
+
+<header class="topbar">
+<div class="crumbs"><span>Maison Studio</span><span aria-hidden="true">/</span><span class="here">Overview</span><span class="chip">Sample data</span></div>
+<label class="search">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+<input type="search" placeholder="Search customers or bookings" aria-label="Search">
+</label>
+<button type="button" class="icon-btn theme-toggle" aria-label="Switch to dark theme">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+</button>
+<button type="button" class="icon-btn" aria-label="Notifications, 3 unread">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+<span class="count" aria-hidden="true">3</span>
+</button>
+<button type="button" class="me" aria-label="Account menu">
+<span class="avatar">SM</span>
+<span class="who">Sara Malik<small>Owner</small></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+</button>
+</header>
+
+<main class="content">
+<div class="page-head">
+<div>
+<h1 class="heading-lg">Overview</h1>
+<p>Tue, 17 Nov 2026 · This month so far</p>
+</div>
+<div class="actions">
+<div class="seg" role="group" aria-label="Period">
+<button type="button" aria-pressed="false">Today</button>
+<button type="button" aria-pressed="false">Week</button>
+<button type="button" aria-pressed="true">Month</button>
+</div>
+<button type="button" class="btn btn-primary">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg>
+New booking</button>
+</div>
+</div>
+
+<section class="kpis" aria-label="Key figures">
+<div class="card kpi"><span class="label">Total appointments</span><span class="heading-lg">142</span><span class="body-sm muted">Up 14% on 1–17 Oct</span></div>
+<div class="card kpi"><span class="label">Confirmed</span><span class="heading-lg">118</span><span class="body-sm muted">83% of all appointments</span></div>
+<div class="card kpi"><span class="label">Cancellations</span><span class="heading-lg">9</span><span class="body-sm muted">6.3% rate, down from 8.1%</span></div>
+<div class="card kpi"><span class="label">Total revenue</span><span class="heading-lg">Rs 486,500</span><span class="body-sm muted">Up 9% on 1–17 Oct</span></div>
+</section>
+
+<div class="row">
+<section class="card panel wide">
+<div class="panel-head">
+<div><h2 class="heading-sm">Appointment activity</h2><p class="body-sm">Appointments per day, last 14 days</p></div>
+<div class="legend"><span><i style="background:var(--brand-magenta)"></i>Booked</span><span><i style="background:var(--secondary-peacock)"></i>Cancelled</span></div>
+</div>
+<div class="chart" role="img" aria-label="Bar chart of daily appointments from 4 to 17 November. Busiest day was Saturday 14 November with 16 appointments.">
+<div class="y caption" aria-hidden="true"><span>16</span><span>8</span><span>0</span></div>
+<div class="plot">
+<div class="bars">
+<div class="bar"><div class="c" style="height:6.25%"></div><div class="b" style="height:56.25%"></div></div>
+<div class="bar"><div class="b" style="height:68.75%"></div></div>
+<div class="bar"><div class="c" style="height:6.25%"></div><div class="b" style="height:75%"></div></div>
+<div class="bar"><div class="c" style="height:6.25%"></div><div class="b" style="height:87.5%"></div></div>
+<div class="bar"><div class="b" style="height:31.25%"></div></div>
+<div class="bar"><div class="c" style="height:6.25%"></div><div class="b" style="height:43.75%"></div></div>
+<div class="bar"><div class="b" style="height:50%"></div></div>
+<div class="bar"><div class="c" style="height:6.25%"></div><div class="b" style="height:62.5%"></div></div>
+<div class="bar"><div class="b" style="height:56.25%"></div></div>
+<div class="bar"><div class="c" style="height:12.5%"></div><div class="b" style="height:81.25%"></div></div>
+<div class="bar"><div class="c" style="height:6.25%"></div><div class="b" style="height:93.75%"></div></div>
+<div class="bar"><div class="b" style="height:37.5%"></div></div>
+<div class="bar"><div class="c" style="height:6.25%"></div><div class="b" style="height:50%"></div></div>
+<div class="bar"><div class="b" style="height:62.5%"></div></div>
+</div>
+<div class="x caption" aria-hidden="true"><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span class="today">Today</span></div>
+</div>
+</div>
+</section>
+
+<section class="card panel narrow">
+<div class="panel-head">
+<div><h2 class="heading-sm">Today</h2><p class="body-sm">10 appointments, 4 staff on shift</p></div>
+<a href="#">View all</a>
+</div>
+<ul class="list">
+<li><span class="time">10:00 AM</span><span class="body"><b>Mahnoor Ali</b><span>Haircut and blow-dry with Ayesha</span></span><span class="badge b-neutral">Completed</span></li>
+<li><span class="time">11:30 AM</span><span class="body"><b>Zainab Qureshi</b><span>Balayage with Hira</span></span><span class="badge b-neutral">Completed</span></li>
+<li><span class="time">1:00 PM</span><span class="body"><b>Hamza Sheikh</b><span>Beard and fade with Bilal</span></span><span class="badge b-success">Confirmed</span></li>
+<li><span class="time">2:30 PM</span><span class="body"><b>Fatima Khan</b><span>Gel manicure with Sana</span></span><span class="badge b-success">Confirmed</span></li>
+<li><span class="time">3:30 PM</span><span class="body"><b>Areeba Shah</b><span>Haircut and blow-dry with Ayesha</span></span><span class="badge b-warning">Pending</span></li>
+<li><span class="time">5:00 PM</span><span class="body"><b>Iqra Javed</b><span>Keratin treatment with Hira</span></span><span class="badge b-success">Confirmed</span></li>
+</ul>
+</section>
+</div>
+
+<div class="row">
+<section class="card panel wide">
+<div class="panel-head">
+<div><h2 class="heading-sm">Upcoming</h2><p class="body-sm">Next 3 days</p></div>
+<a href="#">All appointments</a>
+</div>
+<div class="table-wrap">
+<table class="stack-table">
+<thead><tr><th scope="col">Customer</th><th scope="col">Date and time</th><th scope="col">Service</th><th scope="col">Staff</th><th scope="col">Booked by</th><th scope="col">Status</th></tr></thead>
+<tbody>
+<tr><td class="lead"><b>Noor Fatima</b><span class="sub">0300 123 4567</span></td><td data-label="Date and time">Wed 18 Nov, 11:00 AM</td><td data-label="Service">Bridal trial</td><td data-label="Staff">Ayesha Rahman</td><td data-label="Booked by"><span class="src"><span class="ai-pill">AI</span>AI receptionist</span></td><td data-label="Status"><span class="badge b-success">Confirmed</span></td></tr>
+<tr><td class="lead"><b>Usman Tariq</b><span class="sub">0321 555 0192</span></td><td data-label="Date and time">Wed 18 Nov, 3:30 PM</td><td data-label="Service">Haircut</td><td data-label="Staff">Bilal Ahmed</td><td data-label="Booked by">Reception</td><td data-label="Status"><span class="badge b-warning">Pending</span></td></tr>
+<tr><td class="lead"><b>Maryam Siddiqui</b><span class="sub">0333 210 8841</span></td><td data-label="Date and time">Thu 19 Nov, 12:00 PM</td><td data-label="Service">Hydrating facial</td><td data-label="Staff">Sana Iqbal</td><td data-label="Booked by"><span class="src"><span class="ai-pill">AI</span>AI receptionist</span></td><td data-label="Status"><span class="badge b-success">Confirmed</span></td></tr>
+<tr><td class="lead"><b>Ali Raza</b><span class="sub">0345 760 3318</span></td><td data-label="Date and time">Thu 19 Nov, 4:00 PM</td><td data-label="Service">Beard and fade</td><td data-label="Staff">Bilal Ahmed</td><td data-label="Booked by">Online</td><td data-label="Status"><span class="badge b-success">Confirmed</span></td></tr>
+<tr><td class="lead"><b>Hania Butt</b><span class="sub">0312 908 4426</span></td><td data-label="Date and time">Fri 20 Nov, 10:30 AM</td><td data-label="Service">Balayage</td><td data-label="Staff">Hira Batool</td><td data-label="Booked by"><span class="src"><span class="ai-pill">AI</span>AI receptionist</span></td><td data-label="Status"><span class="badge b-warning">Pending</span></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section class="card panel narrow">
+<div class="panel-head">
+<div><h2 class="heading-sm">Recent activity</h2><p class="body-sm">Who did what, newest first</p></div>
+</div>
+<ul class="list feed">
+<li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span><span class="body"><b>Booked: Balayage with Hira for Hania Butt, Fri 10:30 AM</b><span><span class="ai-pill">AI</span>Booked by AI receptionist · 12 min ago</span></span></li>
+<li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg></span><span class="body"><b>Usman Tariq asked to cancel Wednesday’s haircut</b><span><span class="badge b-warning">Needs attention</span>38 min ago</span></span></li>
+<li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></span><span class="body"><b>Moved: Iqra Javed to 5:00 PM today</b><span>Rescheduled by reception · 1 h ago</span></span></li>
+<li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><span class="body"><b>Call passed to reception: question about bridal packages</b><span><span class="ai-pill">AI</span>Transferred by AI receptionist · 2 h ago</span></span></li>
+<li><span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span><span class="body"><b>Booked: Beard and fade with Bilal for Ali Raza, Thu 4:00 PM</b><span>Booked online · 3 h ago</span></span></li>
+</ul>
+</section>
+</div>
+
+<section class="card panel">
+<div class="panel-head">
+<div><h2 class="heading-sm">Staff performance</h2><p class="body-sm">This month so far</p></div>
+<a href="#">Manage staff</a>
+</div>
+<div class="table-wrap">
+<table class="stack-table">
+<thead><tr><th scope="col">Staff member</th><th scope="col" class="num">Appointments</th><th scope="col" style="width:28%">Booked hours</th><th scope="col" class="num">Revenue</th><th scope="col" class="num">Cancellation rate</th></tr></thead>
+<tbody>
+<tr><td class="lead"><span class="person"><span class="avatar">AR</span><span><b>Ayesha Rahman</b><span class="sub">Senior stylist</span></span></span></td><td class="num" data-label="Appointments">46</td><td data-label="Booked hours"><span class="meter"><span class="track"><span class="fill" style="width:88%"></span></span><span class="pct">88%</span></span></td><td class="num" data-label="Revenue">Rs 172,000</td><td class="num" data-label="Cancellation rate">4.3%</td></tr>
+<tr><td class="lead"><span class="person"><span class="avatar">HB</span><span><b>Hira Batool</b><span class="sub">Colourist</span></span></span></td><td class="num" data-label="Appointments">38</td><td data-label="Booked hours"><span class="meter"><span class="track"><span class="fill" style="width:81%"></span></span><span class="pct">81%</span></span></td><td class="num" data-label="Revenue">Rs 158,500</td><td class="num" data-label="Cancellation rate">5.3%</td></tr>
+<tr><td class="lead"><span class="person"><span class="avatar">BA</span><span><b>Bilal Ahmed</b><span class="sub">Barber</span></span></span></td><td class="num" data-label="Appointments">34</td><td data-label="Booked hours"><span class="meter"><span class="track"><span class="fill" style="width:74%"></span></span><span class="pct">74%</span></span></td><td class="num" data-label="Revenue">Rs 86,000</td><td class="num" data-label="Cancellation rate">8.8%</td></tr>
+<tr><td class="lead"><span class="person"><span class="avatar">SI</span><span><b>Sana Iqbal</b><span class="sub">Nail and skin specialist</span></span></span></td><td class="num" data-label="Appointments">24</td><td data-label="Booked hours"><span class="meter"><span class="track"><span class="fill" style="width:61%"></span></span><span class="pct">61%</span></span></td><td class="num" data-label="Revenue">Rs 70,000</td><td class="num" data-label="Cancellation rate">8.3%</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+</div>
+</div>
+
+<nav class="tabbar" aria-label="Owner navigation">
+<a href="#" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>Overview</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg>Bookings</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>Calendar</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>Customers</a>
+<a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>More</a>
+</nav>
+
+<script>
+(function () {
+var root = document.documentElement;
+var toggles = document.querySelectorAll('.theme-toggle');
+function apply(theme) {
+root.setAttribute('data-theme', theme);
+toggles.forEach(function (t) {
+t.setAttribute('aria-label', theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+});
+try { localStorage.setItem('voxdesk-theme', theme); } catch (e) {}
+}
+var saved = null;
+try { saved = localStorage.getItem('voxdesk-theme'); } catch (e) {}
+apply(saved === 'dark' ? 'dark' : 'light');
+toggles.forEach(function (t) {
+t.addEventListener('click', function () { apply(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); });
+});
+document.querySelectorAll('.seg button').forEach(function (b) {
+b.addEventListener('click', function () {
+document.querySelectorAll('.seg button').forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
+});
+});
+})();
+</script>
+</body>
+</html>
