@@ -125,7 +125,19 @@ function AnalyticsBody({ data, today }: { data: Analytics; today: string }) {
 
       <Card>
         <CardHeader title="Service performance" description="Booked services in this period, highest revenue first" />
-        <div className="overflow-x-auto">
+        <ul className="sm:hidden" aria-label="Service performance">
+          {data.services.map((s) => (
+            <li key={s.serviceId} className="flex flex-col gap-2 border-t border-line px-4 py-4">
+              <div className="flex justify-between gap-3">
+                <span className="font-semibold">{s.name}</span>
+                <span>{fmt.money(s.revenue)}</span>
+              </div>
+              <span className="type-body-sm text-ink-muted">{s.count} bookings</span>
+              <Meter value={s.revenue / topRevenue} label={`${s.name} revenue compared with the top service`} />
+            </li>
+          ))}
+        </ul>
+        <div className="hidden overflow-x-auto sm:block">
           <table className="w-full min-w-[560px] border-collapse">
             <thead>
               <tr className="border-t border-line">
@@ -163,7 +175,24 @@ export function StaffPerformance({ data, action }: { data: Analytics; action?: R
   return (
     <Card>
       <CardHeader title="Staff performance" description="Booked hours are the share of each person’s working time that was booked" action={action} />
-      <div className="overflow-x-auto">
+      <ul className="sm:hidden" aria-label="Staff performance">
+        {data.staff.map((s) => (
+          <li key={s.staffId} className="flex flex-col gap-2 border-t border-line px-4 py-4">
+            <div className="flex justify-between gap-3">
+              <span className="flex flex-col">
+                <span className="font-semibold">{s.name}</span>
+                <span className="type-body-sm text-ink-muted">{s.title}</span>
+              </span>
+              <span className="text-right">{fmt.money(s.revenue)}</span>
+            </div>
+            <span className="type-body-sm text-ink-muted">
+              {s.count} appointments · {fmt.percent(s.cancellationRate)} cancelled
+            </span>
+            <Meter value={s.utilisation} label={`${s.name} booked hours`} />
+          </li>
+        ))}
+      </ul>
+      <div className="hidden overflow-x-auto sm:block">
         <table className="w-full min-w-[680px] border-collapse">
           <thead>
             <tr className="border-t border-line">

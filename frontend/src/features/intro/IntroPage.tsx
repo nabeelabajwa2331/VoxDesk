@@ -40,7 +40,7 @@ function Section({ id, className, children, labelledBy }: { id: string; classNam
       data-section
       data-reveal="none"
       aria-labelledby={labelledBy}
-      className={cn('relative flex min-h-dvh snap-start items-center px-4 pt-24 pb-16 sm:px-10', className)}
+      className={cn('relative flex min-h-dvh snap-start items-center px-4 pt-24 pb-20 sm:px-10 md:pr-20', className)}
     >
       <div className="mx-auto w-full max-w-6xl">{children}</div>
     </section>
@@ -85,7 +85,7 @@ export function IntroPage() {
   };
 
   return (
-    <div ref={scroller} className="h-dvh snap-y snap-proximity overflow-x-hidden overflow-y-auto scroll-smooth md:snap-mandatory">
+    <div ref={scroller} className="h-dvh snap-y snap-proximity overflow-x-hidden overflow-y-auto scroll-smooth [@media(min-width:768px)_and_(min-height:720px)]:snap-mandatory">
       <header className="fixed inset-x-0 top-0 z-20 border-b border-line bg-surface/95">
         <div className="mx-auto flex min-h-16 max-w-6xl items-center gap-3 px-4 sm:px-10">
           <Link to="/" className="flex-1 no-underline" aria-label="VoxDesk AI home">
@@ -120,7 +120,7 @@ export function IntroPage() {
               <span data-reveal className="flex items-center gap-2 type-label text-ink-muted" style={delay(0)}>
                 <AiPill /> AI receptionist for salons
               </span>
-              <h1 id="welcome-title" data-reveal className="font-display text-[40px] leading-[44px] font-bold sm:text-[56px] sm:leading-[60px]" style={delay(120)}>
+              <h1 id="welcome-title" data-reveal className="font-display text-[34px] leading-[40px] font-bold text-balance min-[400px]:text-[40px] min-[400px]:leading-[44px] sm:text-[56px] sm:leading-[60px]" style={delay(120)}>
                 Your salon’s receptionist that never misses a call.
               </h1>
               <p data-reveal className="max-w-xl type-body-lg text-ink-muted" style={delay(240)}>
@@ -140,7 +140,7 @@ export function IntroPage() {
           <button
             type="button"
             onClick={() => goTo(1)}
-            className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1 type-caption text-ink-muted"
+            className="absolute bottom-6 left-1/2 flex min-h-11 -translate-x-1/2 flex-col items-center justify-end gap-1 type-caption text-ink-muted [@media(max-height:640px)]:hidden"
           >
             Scroll or swipe
             <ChevronDown size={20} strokeWidth={1.75} aria-hidden="true" className="intro-nudge" />
@@ -248,7 +248,7 @@ export function IntroPage() {
 
 function HeroArt() {
   return (
-    <div data-reveal="right" style={delay(300)} className="relative mx-auto aspect-square w-full max-w-[440px]" aria-hidden="true">
+    <div data-reveal="right" style={delay(300)} className="relative mx-auto aspect-square w-full max-w-[260px] sm:max-w-[360px] lg:max-w-[440px]" aria-hidden="true">
       <div className="intro-float absolute top-[4%] left-[18%] h-[58%] w-[52%] rounded-lg bg-brand" />
       <div className="intro-float-slow absolute top-0 right-0 h-[86%] w-[22%] rounded-lg bg-plum" />
       <div className="intro-float-slow absolute bottom-0 left-0 h-[52%] w-[14%] rounded-lg bg-marigold" />

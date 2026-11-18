@@ -10,7 +10,7 @@ interface SegmentedProps<T extends string> {
 
 export function Segmented<T extends string>({ label, options, value, onChange, className }: SegmentedProps<T>) {
   return (
-    <div role="group" aria-label={label} className={cn('flex rounded-md border border-line-strong bg-raised p-[3px]', className)}>
+    <div role="group" aria-label={label} className={cn('flex max-w-full overflow-x-auto rounded-md border border-line-strong bg-raised p-[3px]', className)}>
       {options.map((o) => {
         const active = o.value === value;
         return (

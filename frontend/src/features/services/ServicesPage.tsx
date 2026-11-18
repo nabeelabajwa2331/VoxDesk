@@ -48,7 +48,25 @@ function ServicesManager() {
           empty={<EmptyState icon={<Tag size={20} strokeWidth={1.75} aria-hidden="true" />} title="No services yet" body="Add the first service customers can book." />}
         >
           {(rows) => (
-            <div className="overflow-x-auto">
+            <>
+            <ul className="sm:hidden" aria-label="Services">
+              {rows.map((s) => (
+                <li key={s.id} className="flex flex-col gap-2 border-t border-line px-4 py-4 first:border-t-0">
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="font-semibold">{s.name}</span>
+                    <Badge tone={s.active ? 'success' : 'neutral'}>{s.active ? 'Bookable' : 'Hidden'}</Badge>
+                  </div>
+                  {s.description && <p className="type-body-sm text-ink-muted">{s.description}</p>}
+                  <p className="type-body-sm">
+                    {fmt.duration(s.durationMin)} · {fmt.money(s.price)} · {staffNames(s.staffIds).join(', ') || 'No one assigned'}
+                  </p>
+                  <Button size="sm" className="self-start" icon={<Pencil size={16} strokeWidth={1.75} aria-hidden="true" />} onClick={() => setEditing(s)}>
+                    Edit
+                  </Button>
+                </li>
+              ))}
+            </ul>
+            <div className="hidden overflow-x-auto sm:block">
               <table className="w-full min-w-[760px] border-collapse">
                 <caption className="sr-only">Services</caption>
                 <thead>
@@ -84,6 +102,7 @@ function ServicesManager() {
                 </tbody>
               </table>
             </div>
+            </>
           )}
         </QueryView>
       </Card>

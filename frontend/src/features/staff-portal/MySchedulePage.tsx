@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { api } from '../../api';
 import { useQuery } from '../../lib/query';
 import { useNow } from '../../lib/useNow';
+import { isNarrowScreen } from '../../lib/media';
 import { addDays, dateKey, minutesOfDay, startOfWeek, todayKey, weekdayOf, zonedToUtc } from '../../lib/time';
 import { useFormat, useSession } from '../auth/AuthProvider';
 import { Card } from '../../components/ui/Card';
@@ -22,7 +23,7 @@ export function MySchedulePage() {
   const tz = business.timeZone;
   const today = todayKey(tz);
   const nowIso = new Date(useNow()).toISOString();
-  const [view, setView] = useState<View>('week');
+  const [view, setView] = useState<View>(() => (isNarrowScreen() ? 'day' : 'week'));
   const [anchor, setAnchor] = useState(today);
   const [openId, setOpenId] = useState<string | null>(null);
 

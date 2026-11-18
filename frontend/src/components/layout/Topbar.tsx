@@ -101,7 +101,7 @@ export function AccountMenu({ compact }: { compact?: boolean }) {
   return (
     <Popover
       label="Account"
-      width="w-72"
+      width="sm:w-72"
       trigger={(p) => (
         <button type="button" aria-label="Account menu" className="flex min-h-11 items-center gap-2 rounded-md pr-1 text-left" {...p}>
           <Avatar name={user.name} />
@@ -207,9 +207,9 @@ export function Topbar() {
       </div>
       <header className="hidden min-h-18 items-center gap-4 border-b border-line px-10 py-3 lg:flex">
         <nav aria-label="Breadcrumb" className="flex min-w-0 flex-1 items-center gap-2 type-body-sm text-ink-muted">
-          <span>{business.name}</span>
+          <span className="truncate">{business.name}</span>
           <span aria-hidden="true">/</span>
-          <span aria-current="page" className="font-semibold text-ink">
+          <span aria-current="page" className="truncate font-semibold text-ink">
             {current?.label ?? 'Page'}
           </span>
           {USING_MOCKS && (

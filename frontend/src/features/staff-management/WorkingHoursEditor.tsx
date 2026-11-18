@@ -33,7 +33,7 @@ export function WorkingHoursEditor({ value, onChange, error }: Props) {
                 <input
                   type="time"
                   aria-label={`${WEEKDAY_NAMES[day]} start`}
-                  className={`${controlClass} w-32`}
+                  className={`${controlClass} min-w-0 flex-1 sm:w-32 sm:flex-none`}
                   value={h.open}
                   onChange={(e) => set(day, { ...h, open: e.target.value })}
                 />
@@ -41,7 +41,7 @@ export function WorkingHoursEditor({ value, onChange, error }: Props) {
                 <input
                   type="time"
                   aria-label={`${WEEKDAY_NAMES[day]} end`}
-                  className={`${controlClass} w-32`}
+                  className={`${controlClass} min-w-0 flex-1 sm:w-32 sm:flex-none`}
                   value={h.close}
                   onChange={(e) => set(day, { ...h, close: e.target.value })}
                 />

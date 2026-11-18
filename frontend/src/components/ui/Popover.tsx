@@ -10,7 +10,7 @@ interface PopoverProps {
 }
 
 /** Click-to-open panel for menus. Closes on outside click, Escape, or after a choice. */
-export function Popover({ trigger, children, align = 'end', width = 'w-80', label }: PopoverProps) {
+export function Popover({ trigger, children, align = 'end', width = 'sm:w-80', label }: PopoverProps) {
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const id = useId();
@@ -42,8 +42,8 @@ export function Popover({ trigger, children, align = 'end', width = 'w-80', labe
           role="region"
           aria-label={label}
           className={cn(
-            'absolute top-full z-30 mt-2 max-w-[calc(100vw-32px)] overflow-hidden rounded-lg border border-line bg-raised',
-            align === 'end' ? 'right-0' : 'left-0',
+            'z-30 overflow-hidden rounded-lg border border-line bg-raised max-sm:fixed max-sm:inset-x-4 max-sm:top-18 max-sm:w-auto sm:absolute sm:top-full sm:mt-2 sm:max-w-[calc(100vw-32px)]',
+            align === 'end' ? 'sm:right-0' : 'sm:left-0',
             width,
           )}
         >
