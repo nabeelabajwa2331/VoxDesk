@@ -23,6 +23,15 @@ With `VITE_USE_MOCKS=true` the app talks to `src/mocks/mockApi.ts` instead of th
 
 Demo accounts (password `demo1234`): `sara@maisonstudio.pk` (owner, Pro), `nida@maisonstudio.pk` (reception), `ayesha@maisonstudio.pk` and `bilal@maisonstudio.pk` (staff), `omar@urbancuts.pk` (owner, Free plan, shows the locked Services page).
 
+## Deploy (Vercel)
+
+`vercel.json` builds the app in demo mode (`VITE_USE_MOCKS=true`), sends every route to `index.html` so deep links work, and pins pnpm to the version that wrote the lockfile.
+
+1. On vercel.com, choose Add New > Project and import the `VoxDesk` GitHub repository.
+2. Set Root Directory to `frontend`. Leave the build settings as detected; `vercel.json` overrides them.
+3. Deploy. Every push to `main` redeploys; pull requests get preview links.
+
+When the FastAPI backend is live, change `VITE_USE_MOCKS=true` in `vercel.json` to `false` and set `VITE_API_BASE_URL` to the backend URL in the Vercel project's environment variables.
 ## Structure
 
 ```
