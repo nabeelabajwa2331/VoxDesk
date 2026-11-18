@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { Navigate, useNavigate } from 'react-router';
+import { Link, Navigate, useNavigate } from 'react-router';
 import { USING_MOCKS, errorMessage } from '../../api';
 import { useAuth } from './AuthProvider';
 import { homePath } from '../../config/navigation';
@@ -41,7 +41,14 @@ export function LoginPage() {
   return (
     <main className="flex min-h-dvh items-center justify-center p-4">
       <div className="flex w-full max-w-md flex-col gap-6">
-        <Wordmark />
+        <div className="flex items-center justify-between gap-3">
+          <Link to="/" className="no-underline" aria-label="Back to the VoxDesk AI introduction">
+            <Wordmark />
+          </Link>
+          <Link to="/" className="min-h-11 content-center type-body-sm">
+            What is VoxDesk?
+          </Link>
+        </div>
         <form onSubmit={submit} noValidate className="flex flex-col gap-5 rounded-lg border border-line bg-raised p-6">
           <div>
             <h1 className="type-heading-md">Sign in</h1>

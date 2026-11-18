@@ -48,7 +48,17 @@ export function RequireRole({ role, children }: { role: Role; children: ReactNod
   return <>{children}</>;
 }
 
-export function HomeRedirect() {
-  const { session } = useAuth();
-  return <Navigate to={session ? homePath(session.user.role) : '/login'} replace />;
+/** Shows the public intro page to visitors and sends signed-in users to their dashboard. */
+export function IntroGate({ children }: { children: ReactNode }) {
+  const { status, session } = useAuth();
+  if (status === 'loading') {
+    return (
+      <FullPageMessage>
+        <Spinner size={28} className="text-brand" />
+        <span className="sr-only">Loading</span>
+      </FullPageMessage>
+    );
+  }
+  if (status === 'authenticated' && session) return <Navigate to={homePath(session.user.role)} replace />;
+  return <>{children}</>;
 }

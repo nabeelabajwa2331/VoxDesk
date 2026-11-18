@@ -3,7 +3,7 @@ import { createBrowserRouter, Link, type RouteObject } from 'react-router';
 import type { Role } from '../types/domain';
 import { USING_MOCKS } from '../api';
 import { AppShell } from '../components/layout/AppShell';
-import { HomeRedirect, RequireAuth, RequireRole } from '../features/auth/guards';
+import { IntroGate, RequireAuth, RequireRole } from '../features/auth/guards';
 import { LoginPage } from '../features/auth/LoginPage';
 
 function page<M extends Record<string, unknown>>(load: () => Promise<M>, name: keyof M) {
@@ -25,6 +25,7 @@ const BookingPage = page(() => import('../features/booking/BookingPage'), 'Booki
 const CancellationRequestsPage = page(() => import('../features/cancellations/CancellationRequestsPage'), 'CancellationRequestsPage');
 const MySchedulePage = page(() => import('../features/staff-portal/MySchedulePage'), 'MySchedulePage');
 const MyProfilePage = page(() => import('../features/staff-portal/MyProfilePage'), 'MyProfilePage');
+const IntroPage = page(() => import('../features/intro/IntroPage'), 'IntroPage');
 const DemoStripePage = page(() => import('../features/billing/DemoStripePage'), 'DemoStripePage');
 
 const AppointmentsModule = () => import('../features/appointments/AppointmentsPage');
@@ -57,6 +58,7 @@ function roleSection(path: string, role: Role, children: RouteObject[]): RouteOb
 }
 
 export const router = createBrowserRouter([
+  { index: true, element: <IntroGate><IntroPage /></IntroGate> },
   { path: '/login', element: <LoginPage /> },
   ...(USING_MOCKS ? [{ path: '/demo-stripe', element: <DemoStripePage /> }] : []),
   {
@@ -66,7 +68,6 @@ export const router = createBrowserRouter([
       </RequireAuth>
     ),
     children: [
-      { index: true, element: <HomeRedirect /> },
       roleSection('owner', 'OWNER', [
         { index: true, element: <OwnerOverview /> },
         { path: 'appointments', element: <ManageAppointments /> },
